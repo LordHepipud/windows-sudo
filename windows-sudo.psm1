@@ -26,6 +26,9 @@ function Start-AsAdmin()
                 }}
             }}
 
+            $UTF8NoBOM = New-Object System.Text.UTF8Encoding $FALSE;
+            [console]::OutputEncoding = $UTF8NoBOM;
+
             Invoke-AdminCall 2>&1 | Tee-Object -FilePath {2};
         }}',
         $Application,
@@ -45,6 +48,8 @@ function Start-AsAdmin()
         $ProcArgs = @{
             '-FilePath' = $Application;
             '-Verb'     = 'runAs';
+            '-Wait'     = $TRUE;
+            '-PassThru' = $TRUE;
         };
 
         if (Test-Path $Application) {
